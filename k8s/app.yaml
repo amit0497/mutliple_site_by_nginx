@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo
+  name: demo-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: demo-containter
+        image: amit194/mutliple_site_by_nginx:latest
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: demo
+  name: demo-service-guru
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+  - name: webport
+    port: 8001
+    targetPort: 8001
+    nodePort: 31111
+  selector:
+    app: demo        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: demo
+  name: demo-service-amit
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+  - name: webport
+    port: 8002
+    targetPort: 8002
+    nodePort: 31112
+  selector:
+    app: demo   
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: demo
+  name: demo-service-devops
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+  - name: webport
+    port: 8003
+    targetPort: 8003
+    nodePort: 31113
+  selector:
+    app: demo             
